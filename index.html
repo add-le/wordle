@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wordle</title>
+  
+  <style>
+    body > div > div > div {
+      
+      height: 60px;
+      width: 60px;
+      background:#676766;
+      color:white ;
+      font-weight: bold;
+      text-transform: uppercase;
+      justify-content:center ;
+      display:flex;
+      align-items:center;
+      font-size: 22pt;
+    }
+    body > div > div {
+      display:flex;
+      gap:4px;
+    }
+    
+    body > div {
+      display: flex;
+      flex-direction: column;
+      gap:4px ;
+      align-items: center;
+
+    }
+    
+    .l {
+      height:40px;
+      display:flex;
+      background: darkgray;
+      align-items:center;
+      width:20px;
+      border-radius: 5px;
+      font-weight: bold;
+      color: white;
+      font-size:16px;
+      justify-content: center;
+      padding:0 4px;
+    }
+    
+    .l:active {
+      background :#676766;
+    }
+    
+    .kb {
+      margin-top: 54px;
+      display:flex;
+      gap:6px;
+      flex-wrap: wrap;
+      justify-content:center ;
+    }
+    
+    </style>
+</head>
+
+<body>
+
+<div>
+  <div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+   <div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+  <div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+    <div></div>
+  </div>
+</div>
+
+<section>
+  <div class="kb">
+    
+  </div>
+</section>
+
+
+<script>
+
+let line = 0;
+let w;
+let words;
+
+function groupArrayBySize(array, size) {
+    const groupedArray = [];
+    for (let i = 0; i < array.length; i += size) {
+        groupedArray.push(array.slice(i, i + size));
+    }
+    return groupedArray;
+}
+
+function type(charcode) {
+  let cells = document.querySelectorAll("body >div>div>div");
+  
+  
+  for(const[i,c] of cells.entries()) {
+    if(!c.innerText && i >= line*5 && i<= (line*5)+4) {
+      c.innerText = charcode;
+break;
+    } 
+  }
+  
+ 
+}
+
+
+  const kb = document.querySelector(".kb");
+  
+  const letters = [
+  'a', 'z', 'e', 'r', 't', 'y', 
+  'u', 'i', 'o', 'p', 
+  'q', 's', 'd', 'f', 'g', 'h', 'j', 'k', 'l', 'm', 
+  'w', 'x', 'c', 'v', 'b', 'n'
+];
+
+for(const l of letters) {
+  const letter = document.createElement("div");
+  letter.innerText = l.toUpperCase();
+  letter.className ="l";
+  letter.onclick = () => type(l);
+  kb.appendChild(letter);
+}
+
+let bk = document.createElement("div");
+bk.innerText ="⌫";
+bk.className = "l";
+bk.onclick = () => {
+  let cells = document.querySelectorAll("body >div>div>div");
+  
+  
+  const row = groupArrayBySize(Array.from(cells), 5);
+ const cline = row[line];
+ 
+ let r = cline.toReversed();
+ 
+ 
+ 
+ for(const c of r) {
+   if(c.innerText) {
+     c.innerText ='';
+     break;
+   }
+ }
+
+
+
+
+  
+  
+};
+kb.appendChild(bk);
+
+let val = document.createElement("div");
+val.innerText ="⏎";
+val.className = "l";
+val.onclick = () => {
+  
+  let empty ='#3b3b3c';
+  let good = '#528c4c'
+  let ngood = '#b49e3a';
+  
+  let cells = document.querySelectorAll("body >div>div>div");
+  
+  
+  const row = groupArrayBySize(Array.from(cells), 5);
+ const cline = row[line];
+ 
+ const cw =cline.map(s =>s.innerText ).join("");
+ 
+ if(cw.length !== 5 || w.length !== 5) {
+   return;
+ }
+ 
+ if(!words.includes(cw.toLowerCase())) {
+   alert("Mot inconnu.")
+   return;
+ }
+ 
+ for(const [i,le] of cw.split("").entries()) {
+
+   
+   if(le.toUpperCase() === w[i].toUpperCase()) {
+     cline[i].style.backgroundColor = good;
+   } else if (w.includes(le.toLowerCase())) {
+     cline[i].style.backgroundColor = ngood;
+   } else {
+     cline[i].style.backgroundColor = empty;
+   }
+ }
+ 
+ if(cw.toLowerCase() === w.toLowerCase()) {
+   alert("Gagné.");
+   window.location.reload()
+ }
+ 
+ if(line < 5) {
+   line++;
+ } else {
+   alert("Perdu.");
+   window.location.reload()
+ }
+ 
+  
+};
+kb.appendChild(val);
+
+async function main() {
+  
+let f = await fetch("./words.csv");
+let csv = await f.text();
+
+ words = csv.split("\n");
+let len = words.length;
+
+let i = Math.floor(Math.random() * len);
+ w = words[i];
+
+console.log(w)
+}
+
+
+main();
+</script>
+
+</body>
+
+</html>
