@@ -6,7 +6,7 @@ const EXIT_SUCCESS = 0;
 const EXIT_FAILURE = 1;
 
 ghpages
-  .publish("out", {
+  .publish("src", {
     message: `Deployed to GitHub Pages [${version}]`,
     nojekyll: true,
     dotfiles: true,
