@@ -1,5 +1,12 @@
 const CACHE_NAME = "wordle-pwa-cache-v1";
-const urlsToCache = ["/", "/index.html", "/app.webmanifest"];
+
+const prefix = location.href.includes("wordle") ? "/wordle" : "/src";
+
+const urlsToCache = [
+  `${prefix}/`,
+  `${prefix}/index.html`,
+  `${prefix}/app.webmanifest`,
+];
 
 self.addEventListener("install", (event) => {
   event.waitUntil(
