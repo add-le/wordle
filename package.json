@@ -3,6 +3,9 @@
   "version": "0.0.1",
   "module": "index.ts",
   "type": "module",
+  "scripts": {
+    "deploy": "bun run scripts/gh-pages.ts"
+  },
   "devDependencies": {
     "@types/bun": "latest",
     "chalk": "5.4.1",
