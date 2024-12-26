@@ -1,0 +1,13 @@
+{
+  "name": "wordle",
+  "version": "0.0.1",
+  "module": "index.ts",
+  "type": "module",
+  "devDependencies": {
+    "@types/bun": "latest",
+    "chalk": "5.4.1",
+    "gh-pages": "6.2.0",
+    "typescript": "5.5.4",
+    "@types/gh-pages": "6.1.0"
+  }
+}
