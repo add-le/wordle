@@ -6,6 +6,10 @@ const urlsToCache = [
   `${prefix}/`,
   `${prefix}/index.html`,
   `${prefix}/app.webmanifest`,
+  `${prefix}/style.css`,
+  `${prefix}/sw.js`,
+  `${prefix}/script.js`,
+  `${prefix}/words.js`,
 ];
 
 self.addEventListener("install", (event) => {
