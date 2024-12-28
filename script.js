@@ -7,6 +7,34 @@ if ("serviceWorker" in navigator) {
 let line = 0;
 let w;
 
+const matrix = [
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+  ["", "", "", "", ""],
+];
+
+const matrixContainer = document.getElementById("matrix-container");
+
+function displayMatrix() {
+  matrixContainer.innerHTML = "";
+  for (const row of matrix) {
+    const rowElement = document.createElement("div");
+    rowElement.className = "matrix-row";
+    for (const cell of row) {
+      const cellElement = document.createElement("div");
+      cellElement.className = "matrix-cell";
+      cellElement.innerText = cell;
+      rowElement.appendChild(cellElement);
+    }
+    matrixContainer.appendChild(rowElement);
+  }
+}
+
+displayMatrix();
+
 function groupArrayBySize(array, size) {
   const groupedArray = [];
   for (let i = 0; i < array.length; i += size) {
@@ -66,7 +94,7 @@ for (const l of letters) {
   kb.appendChild(letter);
 }
 
-let bk = document.createElement("div");
+const bk = document.createElement("div");
 bk.innerText = "⌫";
 bk.className = "l";
 bk.onclick = () => {
@@ -75,7 +103,7 @@ bk.onclick = () => {
   const row = groupArrayBySize(Array.from(cells), 5);
   const cline = row[line];
 
-  let r = cline.reverse();
+  const r = cline.reverse();
 
   for (const c of r) {
     if (c.innerText) {
@@ -84,9 +112,10 @@ bk.onclick = () => {
     }
   }
 };
+
 kb.appendChild(bk);
 
-let val = document.createElement("div");
+const val = document.createElement("div");
 val.innerText = "⏎";
 val.className = "l";
 val.onclick = () => {
@@ -133,9 +162,8 @@ val.onclick = () => {
       JSON.stringify({ w, line, win: true })
     );
     window.location.reload();
-  }
-
-  if (line < 5) {
+    return;
+  } else if (line < 5) {
     line++;
   } else {
     alert("Perdu. Le mot était " + w.toLowerCase() + ".");
@@ -144,6 +172,7 @@ val.onclick = () => {
       JSON.stringify({ w, line, win: false })
     );
     window.location.reload();
+    return;
   }
 };
 
@@ -152,3 +181,5 @@ kb.appendChild(val);
 let len = words.length;
 let i = Math.floor(Math.random() * len);
 w = words[i];
+
+console.log("logger", w);

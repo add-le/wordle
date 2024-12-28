@@ -1,4 +1,5 @@
-body > div > div > div {
+body > div > div > div,
+.matrix-cell {
   height: 60px;
   width: 60px;
   background: #676766;
@@ -12,12 +13,13 @@ body > div > div > div {
   font-family: Arial;
 }
 
-body > div > div {
+body > div > div,
+.matrix-row {
   display: flex;
   gap: 4px;
 }
 
-body > div {
+#matrix-container {
   display: flex;
   flex-direction: column;
   gap: 4px;
